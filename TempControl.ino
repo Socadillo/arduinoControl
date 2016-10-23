@@ -25,7 +25,7 @@
     // Temp. for nominal resistance (almost always 25 C)
     #define TEMPERATURENOMINAL 25   
     // How many samples to take and average, more takes longer, but is more 'smooth' 
-    #define NUMSAMPLES 5
+    #define NUMSAMPLES 10
     // The beta coefficient of the thermistor (usually 3000-4000)
     #define BCOEFFICIENT 3950
     // the value of the 'other' resistor
@@ -87,10 +87,16 @@ void setup() {
   lcd.begin (20,4);     // <<-- our LCD is a 20x4, change for your LCD if needed
   lcd.setBacklightPin(BACKLIGHT_PIN,POSITIVE);    // LCD Backlight ON
   lcd.setBacklight(HIGH);
-  lcd.setCursor(3, 1);
-  lcd.print("SMOKEY SQUIRREL");
-  lcd.setCursor(1, 3);
-  lcd.print("Smoker  Controller");
+  lcd.setCursor(1, 1);
+  lcd.print("SMOKEY");
+  lcd.setCursor(2, 2);
+  lcd.print("SQUIRREL");
+  lcd.setCursor(11, 1);
+  lcd.print("Smoker");
+  lcd.setCursor(12, 2);
+  lcd.print("Control");
+  lcd.setCursor(13, 3);
+  lcd.print("Unit");
   delay(1500);
   lcd.clear();  
   
@@ -119,19 +125,15 @@ void loop() {
       for (i=0; i< NUMSAMPLES; i++)
        {
          analogRead(THERMISTORPIN_1);
-         delay(10);
          samples_1[i] = analogRead(THERMISTORPIN_1);  //Read samples from the analog pins connected to thermistor probe sensors
          delay(10);
          analogRead(THERMISTORPIN_2);
-         delay(10);
          samples_2[i] = analogRead(THERMISTORPIN_2);  //Read samples from the analog pins connected to thermistor probe sensors
          delay(10);
          analogRead(THERMISTORPIN_3);
-         delay(10);
          samples_3[i] = analogRead(THERMISTORPIN_3);  //Read samples from the analog pins connected to thermistor probe sensors
          delay(10);
          analogRead(THERMISTORPIN_4);
-         delay(10);
          samples_4[i] = analogRead(THERMISTORPIN_4);  //Read samples from the analog pins connected to thermistor probe sensors
          delay(10);
           }
@@ -207,9 +209,9 @@ void loop() {
 
   //Button Variables
       setTemp = EEPROM.read(1);                     // Read setTemp from the EEPROM memory address 1
-      setTemp = constrain(setTemp, 0, 150);         // Constrain setTemp to 0-150
+      setTemp = constrain(setTemp, 0, 125);         // Constrain setTemp to 0-125
       setTempF= EEPROM.read(2);                     // Read setTempF from the EEPROM memory address 2
-      setTempF = constrain(setTempF, 0, 300);       // Constrain setTempF to 0-300
+      setTempF = constrain(setTempF, 32, 250);       // Constrain setTempF to 32-250
       smokeLevel = EEPROM.read(3);                  // Read the smokeLevel from the EEPROM memory address 3
       smokeLevel = constrain(smokeLevel, 0, 100);   // Constrain smokeLevel to 0-100
 
@@ -274,9 +276,9 @@ void loop() {
             (setTemp --);   // Subtract one from setTemp
             (selectOff = millis());    // Sets the selectOff time
              }
-          setTemp = constrain(setTemp, 0, 150);      // Constrain setTemp to 0-150
+          setTemp = constrain(setTemp, 0, 125);      // Constrain setTemp to 0-125
           setTempF = ((setTemp * 9.0)/ 5.0 + 32.0);  // Match Fahrenheit temp to Celsius temp
-          setTempF = constrain(setTempF, 0, 300);    // Constrain setTempF to 0-300
+          setTempF = constrain(setTempF, 32, 250);    // Constrain setTempF to 32-250
            } // End Celsius
   
         else if (tempDisplay == 1) // If Fahrenheit is selected
@@ -291,9 +293,9 @@ void loop() {
             (setTempF --);   // Subtract one from setTempF
             (selectOff = millis());    // Sets the selectOff time
              }
-          setTempF = constrain(setTempF, 0, 300);      // Constrain setTemp to 0-300
+          setTempF = constrain(setTempF, 32, 250);      // Constrain setTemp to 32-250
           setTemp = ((setTempF - 32.0) * 5.0 / 9.0);   // Match Celisus temp to Fahrenheit temp
-          setTemp = constrain(setTemp, 0, 150);        // Constrain setTemp to 0-150
+          setTemp = constrain(setTemp, 0, 125);        // Constrain setTemp to 0-125
            } // End Fahrenheit
        } // End of Temperaure +1 Buttons
 
@@ -312,9 +314,9 @@ void loop() {
             (setTemp = setTemp - 10);   // Subtract ten from setTemp
             (selectOff = millis());    // Sets the selectOff time
              }
-          setTemp = constrain(setTemp, 0, 150);      // Constrain setTemp to 0-150
+          setTemp = constrain(setTemp, 0, 125);      // Constrain setTemp to 0-125
           setTempF = ((setTemp * 9.0)/ 5.0 + 32.0);  // Match Fahrenheit temp to Celsius temp
-          setTempF = constrain(setTempF, 0, 300);    // Constrain setTempF to 0-300
+          setTempF = constrain(setTempF, 32, 250);    // Constrain setTempF to 32-250
            } // End Celsius
   
         else if (tempDisplay == 1) // If Fahrenheit is selected
@@ -329,9 +331,9 @@ void loop() {
             (setTempF = setTempF - 10);   // Subtract ten from setTempF
             (selectOff = millis());    // Sets the selectOff time
              }
-          setTempF = constrain(setTempF, 0, 300);     // Constrain setTemp to 0-300
+          setTempF = constrain(setTempF, 32, 250);     // Constrain setTemp to 32-250
           setTemp = ((setTempF - 32.0) * 5.0 / 9.0);  // Match Celisus temp to Fahrenheit temp
-          setTemp = constrain(setTemp, 0, 150);       // Constrain setTemp to 0-150
+          setTemp = constrain(setTemp, 0, 125);       // Constrain setTemp to 0-125
            } // End Fahrenheit
        } // End of Temperaure +10 Buttons
 
@@ -396,8 +398,7 @@ void loop() {
 
 //Thermostat
       double c = thermocouple.readCelsius();
-      smokerTemp = probe_1;   // This smoker temp will be its own sensor in the future, but use this probe temp in the meantime
-    //smokerTemp = c; //  This sets the smokerTemp to the thermocouple temperature
+      smokerTemp = c; //  This sets the smokerTemp to the thermocouple temperature
       float smokerTempF = ((smokerTemp * 9.0)/ 5.0 + 32.0);  // Convert to Fahrenheit
       if (smokerTemp < setTemp)    // If the smoker temp is less than setTemp
        {
@@ -405,7 +406,7 @@ void loop() {
          }
       else    // If the smoker temp is NOT less than setTemp
        {
-        digitalWrite (heat_element,0);    // Turn the heat element OFF
+        digitalWrite (heat_element, 0);    // Turn the heat element OFF
          }
          
 //End Thermostat
@@ -974,30 +975,7 @@ void loop() {
           Serial.println((smokeLevel)-(millis()/1000.0-smokeOn), 1);
         }
 
-//deletelater
-Serial.print("ButtonMode =  ");
-Serial.print(buttonMode);
-Serial.print("select off =  ");
-Serial.println(selectOff/1000);
-Serial.print((selectOn/1000 - selectOff/1000),1);
-Serial.print("Int. Temp = ");
-Serial.println(thermocouple.readInternal());
-Serial.print("Thermocouple Temp = ");
-Serial.println(c, 1);
-Serial.print("Smoker T/C Temp = ");
-Serial.println(smokerTemp, 1);
-delay(10);
-Serial.println(analogRead(THERMISTORPIN_1));
-delay(10);
-Serial.println(analogRead(THERMISTORPIN_2));
-delay(10);
-Serial.println(analogRead(THERMISTORPIN_3));
-delay(10);
-Serial.println(analogRead(THERMISTORPIN_4));
-Serial.println(buttonMode);
-Serial.println(tempDisplay);
-Serial.println(tempUpdate/1000.0);
-Serial.println(tempTime - tempUpdate);
+//delete later
       Serial.println();
       Serial.println();
       Serial.println();
