@@ -11,9 +11,28 @@
   - Output is timed proportional signal to 25amp SSR relay
   - Powers a 500w heating element
   - Stainless steel chip pan holds combustable material
- - LCD Display
+- Button Interface for normal operations
+  - Select button toggles through the different editing modes
+    - buttonMode 1 is for editing the smoke level
+    - buttonMode 2 is for editing the set temp by 1 degree
+    - buttonMode 3 is for editing the set temp by 10 degrees
+    - buttonMode 4 is for toggling between C and F
+    - Up button for editing temp and smoke level
+    - Down button for editing temp and smoke level
+- Button Interface for PID editing
+  - Simultaneiously press the up and down buttons to enter PID mode
+    - pidEdit 1 is for editing the P value
+    - pidEdit 2 is for editing the I value
+    - pidEdit 3 is for editing the D value
+    - pidEdit 4 is for editing the cycle time
+    - Up button for editing temp and smoke level
+    - Down button for editing temp and smoke level
+- LCD Display
   - 20x4 character blue background with white text display
   - Connected to I2C bus to control display
+  - Toggles between standard display and PID editing display
+- Serial Communication
+  - Used for debugging and monitoring variables at the moment
 
 I believe I will use the serial.prints for interfacing with the android app in the future
 
