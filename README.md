@@ -20,7 +20,7 @@
     - Up button for editing temp and smoke level
     - Down button for editing temp and smoke level
 - Button Interface for PID editing
-  - Simultaneiously press the up and down buttons to enter PID mode
+  - Simultaneously press the up and down buttons to enter PID mode
     - pidEdit 1 is for editing the P value
     - pidEdit 2 is for editing the I value
     - pidEdit 3 is for editing the D value
