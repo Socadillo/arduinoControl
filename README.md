@@ -1,17 +1,17 @@
-# arduinoControl
+# Arduino PID Control
 
 #Code Descriptions
-- PID control for Temperature
-  - Thermocouple temperature sensor
-  - PID algorithm maintains temperature
-  - Output is timed proportional signal to 25amp SSR relay
-  - Powers a 2000w heating element
-- Smoke level is how much smoke to be produced
-  - 0-100% power on or off for 100 second intervals
-  - Output is timed proportional signal to 25amp SSR relay
-  - Powers a 500w heating element
-  - Stainless steel chip pan holds combustable material
-- LCD Display
+PID control for Temperature
+- Thermocouple temperature sensor
+- PID algorithm maintains temperature
+- Output is timed proportional signal to 25amp SSR relay
+- Powers a 2000w heating element
+Smoke level is how much smoke to be produced
+- 0-100% power on or off for 100 second intervals
+- Output is timed proportional signal to 25amp SSR relay
+- Powers a 500w heating element
+- Stainless steel chip pan holds combustable material
+LCD Display
   - 20x4 character blue background with white text display
   - Connected to I2C bus to control display
 
@@ -19,7 +19,7 @@ I believe I will use the serial.prints for interfacing with the android app in t
 
 
 #Physical description of the Arduino
-- Thermocouple Temperature input
+Thermocouple Temperature input
     Connected to Max31855 board
     Connected to Digital Pins 3-5
     0.01 uF capacitors connected accross TC inputs
